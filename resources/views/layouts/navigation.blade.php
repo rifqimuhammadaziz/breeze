@@ -42,6 +42,10 @@
                             {{ __('Dashboard') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('stores.mine')">
+                            {{ __('My Stores') }}
+                        </x-dropdown-link>
+
                         @if (auth()->user()->isAdmin())
                         <x-dropdown-link :href="route('stores.list')">
                             {{ __('List Stores') }}

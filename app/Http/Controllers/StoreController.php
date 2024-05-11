@@ -25,6 +25,12 @@ class StoreController extends Controller
         return back();
     }
 
+    public function mine(Request $request) {
+        $stores = Store::query()->where('user_id', $request->user()->id)->latest()->paginate(6);
+        return view('stores.mine', [
+            'stores' => $stores
+        ]);    }
+
     /**
      * Display a listing of the resource.
      */

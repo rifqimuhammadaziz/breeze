@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('verified')->group(function() {
+        Route::get('stores/mine', [StoreController::class, 'mine'])->name('stores.mine');
         Route::resource('stores', StoreController::class)->except('index', 'show');
     });
 

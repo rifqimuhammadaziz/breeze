@@ -12,9 +12,14 @@ use Illuminate\Support\Facades\Storage;
 class StoreController extends Controller
 {
     public function list() {
-        $stores = Store::query()->latest()->paginate(6);
+        $stores = Store::query()
+        ->with('user:id,name') // lazy load (optimize queries)
+        ->latest()
+        ->paginate(6);
+
         return view('stores.list', [
-            'stores' => $stores
+            'stores' => $stores,
+            'isAdmin' => auth()->user()->isAdmin(), // optimize queries
         ]);
     }
 
@@ -28,17 +33,18 @@ class StoreController extends Controller
     public function mine(Request $request) {
         $stores = Store::query()->where('user_id', $request->user()->id)->latest()->paginate(6);
         return view('stores.mine', [
-            'stores' => $stores
-        ]);    }
+            'stores' => $stores,
+        ]);
+    }
 
     /**
-     * Display a listing of the resource.
+     * Display all data with Status ACTIVE
      */
     public function index()
     {
         $stores = Store::query()->where('status', StoreStatus::ACTIVE)->latest()->get();
         return view('stores.index', [
-            'stores' => $stores
+            'stores' => $stores,
         ]);
     }
 

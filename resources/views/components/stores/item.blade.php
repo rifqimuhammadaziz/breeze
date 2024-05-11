@@ -4,7 +4,10 @@
         <x-card.header>
             <x-card.title>{{ $store->name }}</x-card.title>
             <x-card.description>
-                Created at {{ $store->created_at->format('d F Y') }} by {{ $store->user->name }}
+                Created at {{ $store->created_at->format('d F Y') }} 
+                @if (!request()->routeIs('stores.mine'))
+                    by {{ $store->user->name }}
+                @endif
             </x-card.description>
         </x-card.header>
     
@@ -20,7 +23,7 @@
     <x-card.footer class="flex items-center justify-between">
         <x-badge>{{ $store->status }}</x-badge>
 
-        @if(auth()->user()->isAdmin())
+        @if(isset($isAdmin))
             @if ($store->status !== StoreStatus::ACTIVE)
                 <x-primary-button
                 x-data=""

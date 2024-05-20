@@ -21,7 +21,7 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        User::factory(10)->create();
+        User::factory(10)->hasStores(5)->create();
 
         collect([
             ['name' => 'admin'],

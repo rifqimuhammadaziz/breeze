@@ -14,6 +14,7 @@ class StoreController extends Controller
     public function list() {
         $stores = Store::query()
         ->with('user:id,name') // lazy load (optimize queries)
+        ->withCount('products')
         ->latest()
         ->paginate(6);
 
@@ -85,7 +86,8 @@ class StoreController extends Controller
     public function show(Store $store)
     {
         return view('stores.show', [
-            'store' => $store->loadCount('products')
+            'store' => $store->loadCount('products'),
+            'products' => $store->products()->latest()->paginate(12)
         ]);
     }
 
